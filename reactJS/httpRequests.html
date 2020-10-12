@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReactJS Practice</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@16.12.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+    <script type="text/babel">
+      function Info({ characterName }) {
+        return (
+          <div>
+            <p>You requested info about {characterName}</p>
+          </div>
+        );
+      }
+
+      function App() {
+        function handleSubmit(event) {
+          newCharacterName(event.target.value);
+        }
+        const [characterName, newCharacterName] = React.useState();
+        return (
+          <div>
+            <form>
+              <label>
+                Name:
+                <input type="text" name="name" onChange={handleSubmit} />
+              </label>
+              <button onClick={getCharacters}>Submit</button>
+            </form>
+            <Info characterName={characterName} />
+          </div>
+        );
+      }
+
+      const getCharacters = () => {
+        const [error, setError] = useState(null);
+        const [isLoaded, setIsLoaded] = useState(false);
+        const [items, setItems] = useState([]);
+        useEffect(() => {
+          fetch("https://rickandmortyapi.com/api/character")
+            .then((res) => res.json())
+            .then(
+              (result) => {
+                setIsLoaded(true);
+                setItems(result.items);
+              },
+              (error) => {
+                setIsLoaded(true);
+                setError(error);
+              }
+            );
+        }, []);
+      };
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
