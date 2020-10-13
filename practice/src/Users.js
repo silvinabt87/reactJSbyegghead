@@ -5,7 +5,7 @@ function Users({users}) {
     <div>
       <h1>Users</h1>
       <p>These are the users:</p>
-      <ul>
+      <div>
         {users.map((user) => (
           <table>
             <tr><td> Name: {user.name}</td></tr>
@@ -13,7 +13,7 @@ function Users({users}) {
             <tr><td> ID: {user.id}</td></tr>
           </table>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
